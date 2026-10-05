@@ -1,7 +1,7 @@
 <div align="center">
 
 # ⚡ AOS (Agent Operating System)
-### Fast, Local Non-LLM Kernel for Context & Token Optimization
+### An AI-native runtime kernel for context optimization, token reduction, and local verification
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python Version](https://img.shields.io/badge/Python-3.10+-3776AB?logo=python&logoColor=white)](https://www.python.org)

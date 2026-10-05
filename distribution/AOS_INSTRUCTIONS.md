@@ -1,4 +1,5 @@
-# AOS Agent Companion Guide (AI Host Instructions)
+# AOS (Agent Operating System)
+An AI-native runtime kernel for context optimization, token reduction, and local verification.
 
 Welcome to the **AOS (Agent Operating System)** runtime.
 You are operating within an AOS-accelerated development environment. AOS acts as a sub-LLM intelligence plane, deterministic code intelligence layer, and zero-waste token compressor for host AI coding models.
