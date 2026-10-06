@@ -11,7 +11,7 @@
 
 **AOS sits invisibly beneath your IDE and autonomous agents—slashing context consumption by 95%, enforcing cryptographic reality audits on AI actions, and injecting dual-model intelligence into single-model coding environments.**
 
-[The Architecture](#-architectural-manifesto) • [Core Superpowers](#-core-superpowers) • [Dual-LLM Delegate Engine](#-dual-llm-delegate-architecture) • [Security & Zero-Trust](#-zero-trust-security--zero-leak-guarantee) • [Supported Platforms](#-supported-ides--agent-runtimes) • [Quickstart](#-quickstart) • [Pricing](#-pricing--pro-access)
+[The Architecture](#-architectural-manifesto) • [Core Superpowers](#-core-superpowers) • [Sub-Agent Delegate Engine](#-sub-agent-delegate-engine-multi-llm-in-single-model-ides) • [Security & Zero-Trust](#-zero-trust-security--zero-leak-guarantee) • [Supported Platforms](#-supported-ides--agent-runtimes) • [Quickstart](#-quickstart) • [Pricing](#-pricing--pro-access)
 
 </div>
 
@@ -64,10 +64,14 @@ Modern AI coding agents suffer from fundamental systemic bottlenecks:
 - **Zero Token Expenditure:** Delivers exact function signatures, dependency trees, and implementation bodies in a median of **0.036 ms** without invoking an external LLM.
 - **Fail-Open Resilience:** If dynamic metaprogramming or unsupported ASTs are encountered, AOS instantly falls back to full-file streaming without disrupting developer flow.
 
-### 2. 🧠 Dual-LLM Delegate Architecture (System 1 + System 2)
-Most platforms (including Codex and Antigravity) enforce single-session interaction. AOS bridges this gap:
-- **System 1 (Ultra-Fast Deterministic Layer):** Handles instantaneous queries, AST extraction, invariant retrieval, and local GGUF embeddings in sub-millisecond cycles with **0 cloud tokens**.
-- **System 2 (Deliberative Frontier Reasoning):** Deep architectural planning, cross-file refactoring, and multi-step reasoning are delegated to frontier models fed with surgically compiled context.
+### 2. 🧠 Sub-Agent Delegate Engine (Multi-LLM in Single-Model IDEs)
+Most premier environments (such as **Google Antigravity**, **OpenAI Codex**, or **Cursor**) strictly lock developers into **one active model per session**. Choosing a heavy frontier model forces you to waste latency and expensive tokens on minor mechanical tasks.
+
+**AOS breaks this single-model constraint:**
+- **System 1 + System 2 Division:** Ultra-fast deterministic queries, AST extraction, invariant lookups, and local GGUF embeddings run instantaneously on local hardware with **0 cloud tokens**.
+- **Hierarchical Delegation:** Your primary host model (e.g., Claude 3.7 or GPT-4.5) acts as the high-level architect and delegates routine subtasks, draft generation, and mechanical code edits to a secondary **Worker LLM**.
+- **Flexible Worker Runtimes:** The delegated worker can run as an **isolated local model** (Gemma/Qwen on your hardware) or a lightweight, blazing-fast cloud LLM.
+- **Maximum Speed & Zero Compromise on Quality:** The master model keeps its context window uncluttered while the worker handles the grunt work, slashing latency and operational cost without leaving your favorite IDE.
 
 ### 3. 🔍 Tool Output Gateway (Intelligent Terminal Filtering)
 - AI agents easily drown when running commands like `pytest`, `npm test`, or database migrations that return thousands of lines of output.
