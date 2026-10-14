@@ -1,63 +1,76 @@
 <#
 .SYNOPSIS
-AOS Windows Standalone Installer Script
+AOS Frictionless One-Line Onboarding Installer for Windows PowerShell
 #>
 
+$ErrorActionPreference = "Stop"
+
 Write-Host "=====================================================" -ForegroundColor Cyan
-Write-Host " 🚀 Installing AOS (Agent Operating System) Core" -ForegroundColor Cyan
+Write-Host " ⚡ Installing AOS (Agent Operating System)" -ForegroundColor Cyan
 Write-Host "=====================================================" -ForegroundColor Cyan
 
-# 2. Ensure Global ~/.aos Directory and bin
-$globalAos = Join-Path $HOME ".aos"
-$binDir = Join-Path $globalAos "bin"
-if (-not (Test-Path $binDir)) {
-    New-Item -ItemType Directory -Path $binDir -Force | Out-Null
-    Write-Host " • Created global binary directory: $binDir" -ForegroundColor Green
+# 1. Detect Python 3.11+
+$py = Get-Command python -ErrorAction SilentlyContinue
+if (-not $py) {
+    Write-Error "Python 3 is required but was not found in PATH. Please install Python 3.11+."
+    exit 1
 }
 
-# 3. Attempt Standalone Binary Download from Branded Gateway
-$binaryInstalled = $false
-$gatewayUrl = if ($env:AOS_DOWNLOAD_URL) { $env:AOS_DOWNLOAD_URL } else { "https://api.aos.run/download/windows" }
-$targetExe = Join-Path $binDir "aos.exe"
+$pyVer = & python -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')"
+$major, $minor = $pyVer.Split('.')
+if ([int]$major -lt 3 -or ([int]$major -eq 3 -and [int]$minor -lt 11)) {
+    Write-Error "AOS requires Python 3.11+. Detected: Python $pyVer"
+    exit 1
+}
+Write-Host " • Python Version: $pyVer (OK)" -ForegroundColor Green
 
-try {
-    Write-Host " • Fetching latest standalone binary from: $gatewayUrl" -ForegroundColor Cyan
-    Invoke-WebRequest -Uri $gatewayUrl -OutFile $targetExe -TimeoutSec 10 -ErrorAction Stop
-    if ((Test-Path $targetExe) -and (Get-Item $targetExe).Length -gt 1000000) {
-        Write-Host " • Downloaded standalone executable: $targetExe" -ForegroundColor Green
-        $binaryInstalled = $true
-    } else {
-        Remove-Item $targetExe -ErrorAction SilentlyContinue
+# 2. Virtual Environment Setup
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+if ($scriptDir -like "*scripts*") {
+    $repoRoot = Split-Path -Parent $scriptDir
+} else {
+    $repoRoot = $scriptDir
+}
+
+$venvDir = Join-Path $repoRoot ".venv"
+$venvPy = Join-Path $venvDir "Scripts\python.exe"
+
+if (-not (Test-Path $venvPy)) {
+    Write-Host " • Creating virtual environment in $venvDir..." -ForegroundColor Cyan
+    & python -m venv $venvDir
+}
+
+# 3. Locate & Install Wheel Package
+$wheel = Get-ChildItem -Path (Join-Path $repoRoot "dist") -Filter "*.whl" -ErrorAction SilentlyContinue | Select-Object -Last 1
+
+if ($wheel) {
+    Write-Host " • Installing AOS from package: $($wheel.Name)..." -ForegroundColor Cyan
+    & $venvPy -m pip install $wheel.FullName --force-reinstall --quiet
+} else {
+    Write-Host " • Fetching latest release package..." -ForegroundColor Cyan
+    $releaseUrl = "https://github.com/GamalxX/aos/releases/latest/download/aos-1.0.0-py3-none-any.whl"
+    try {
+        & $venvPy -m pip install $releaseUrl --force-reinstall --quiet
+    } catch {
+        & $venvPy -m pip install aos --quiet
     }
-} catch {
-    Write-Host " • Standalone binary gateway offline or unreachable. Falling back to local Python wrapper." -ForegroundColor Yellow
 }
 
-# 4. Fallback: Create Windows wrapper script 'aos.cmd'
-if (-not $binaryInstalled) {
-    $pythonCmd = Get-Command python -ErrorAction SilentlyContinue
-    if (-not $pythonCmd) {
-        Write-Error "Neither binary could be fetched nor Python 3 found in PATH. Please install Python 3.10+."
-        exit 1
-    }
-    $pyVersion = & python -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')"
-    Write-Host " • Detected Python: $pyVersion" -ForegroundColor Green
-    
-    $aosCmdPath = Join-Path $binDir "aos.cmd"
-    $scriptContent = "@echo off`r`npython -m app.client.cli_setup %*"
-    Set-Content -Path $aosCmdPath -Value $scriptContent -Encoding ASCII
-    Write-Host " • Created standalone Python launcher: $aosCmdPath" -ForegroundColor Green
+# 4. Auto-Inject MCP Config for Detected Editors
+$aosExe = Join-Path $venvDir "Scripts\aos.exe"
+if (Test-Path $aosExe) {
+    Write-Host " • Injecting MCP configuration into detected IDEs..." -ForegroundColor Cyan
+    & $aosExe setup
+    Write-Host " • Running system diagnostics..." -ForegroundColor Cyan
+    & $aosExe doctor
+} else {
+    & $venvPy -m app.client.entrypoint setup
+    & $venvPy -m app.client.entrypoint doctor
 }
 
-# 5. Check PATH
-$userPath = [Environment]::GetEnvironmentVariable("Path", "User")
-if ($userPath -notlike "*$binDir*") {
-    Write-Host " • Appending $binDir to User PATH..." -ForegroundColor Yellow
-    [Environment]::SetEnvironmentVariable("Path", "$userPath;$binDir", "User")
-    $env:Path += ";$binDir"
-}
-
-Write-Host "=====================================================" -ForegroundColor Cyan
-Write-Host " ✅ AOS Installation Complete!" -ForegroundColor Green
-Write-Host " Run 'aos setup' inside any repository to enable." -ForegroundColor White
-Write-Host "=====================================================" -ForegroundColor Cyan
+Write-Host "=====================================================" -ForegroundColor Green
+Write-Host " ✅ AOS Setup Complete!" -ForegroundColor Green
+Write-Host " Control Center UI:  http://127.0.0.1:4141" -ForegroundColor Yellow
+Write-Host " Run MCP Server:     aos-mcp" -ForegroundColor Cyan
+Write-Host " Run Control Center: aos-settings" -ForegroundColor Cyan
+Write-Host "=====================================================" -ForegroundColor Green

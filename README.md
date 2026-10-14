@@ -1,191 +1,220 @@
 <div align="center">
 
-# ⚡ AOS — Autonomous AI Operating System
-### The Deterministic AI Runtime & Surgical Context Middleware
+# ⚡ AOS — Agent Operating System
+### The Deterministic System-1 / System-2 Cognitive Kernel for AI Coding Agents
 
-[![Release](https://img.shields.io/badge/Release-v1.0.3-2563EB.svg?style=for-the-badge)](https://github.com/GamalxX/aos/releases)
-[![Tests](https://img.shields.io/badge/Verification-1778%20Passed%20(100%25)-059669.svg?style=for-the-badge)]()
-[![AST Slicer](https://img.shields.io/badge/Slicer%20Latency-0.036ms-D97706.svg?style=for-the-badge)]()
-[![Security](https://img.shields.io/badge/Zero--Trust-Ed25519%20Keyring-7C3AED.svg?style=for-the-badge)]()
-[![Model Dependency](https://img.shields.io/badge/Zero--Ollama-Native%20GGUF-4F46E5.svg?style=for-the-badge)]()
+[![Tests](https://img.shields.io/badge/Verified_Tests-1,885_Passed_(100%25)-success?style=for-the-badge&logo=pytest)](https://github.com/GamalxX/aos)
+[![Codebase](https://img.shields.io/badge/Architecture-130,344_SLOC-blue?style=for-the-badge&logo=python)](https://github.com/GamalxX/aos)
+[![Token Savings](https://img.shields.io/badge/Input_Tokens--93.55%25_Saved-brightgreen?style=for-the-badge)](https://github.com/GamalxX/aos#-3-arm-controlled-benchmark-results)
+[![System 1 Latency](https://img.shields.io/badge/System--1_Reflex-3.33ms_(0_Tokens)-orange?style=for-the-badge)](https://github.com/GamalxX/aos#-dual-mind-architecture-system-1--system-2)
+[![MCP Native](https://img.shields.io/badge/Protocol-MCP_Native-purple?style=for-the-badge)](https://github.com/GamalxX/aos#-quick-start--mcp-integration)
 
-**AOS sits invisibly beneath your IDE and autonomous agents—slashing context consumption by 95%, enforcing cryptographic reality audits on AI actions, and injecting dual-model intelligence into single-model coding environments.**
+**Stop paying LLMs to read entire files, dump raw terminal logs, and hallucinate "passing" tests.**  
+AOS sits between your IDE (**Antigravity, Cursor, Claude Code, Windsurf**) and your LLMs—slicing ASTs surgically, training a **65KB project LoRA on your CPU in <60s**, blocking agent sycophancy with **Ed25519 cryptographic receipts**, and cutting token bills by **over 90%**.
 
-[The Architecture](#-architectural-manifesto) • [Core Superpowers](#-core-superpowers) • [Sub-Agent Delegate Engine](#-sub-agent-delegate-engine-multi-llm-in-single-model-ides) • [Security & Zero-Trust](#-zero-trust-security--zero-leak-guarantee) • [Supported Platforms](#-supported-ides--agent-runtimes) • [Quickstart](#-quickstart) • [Pricing](#-pricing--pro-access)
+[Quick Start](#-quick-start--mcp-integration) · [3-Arm Benchmark](#-3-arm-controlled-benchmark-results) · [System 1 & 2 Architecture](#-dual-mind-architecture-system-1--system-2) · [6 Domain Workflows](#-the-6-specialized-domain-workflows--enhance) · [Control Center UI](#-aos-control-center-localhost4141)
 
 </div>
 
 ---
 
-## 🏛️ Architectural Manifesto
+## 🚨 The Problem with Today's Coding Agents
 
-Modern AI coding agents suffer from fundamental systemic bottlenecks:
-1. **Context Pollution:** Entire multi-thousand-line files are dumped into prompts, wasting millions of tokens, triggering rate limits, and inducing hallucination.
-2. **Naive Self-Validation:** Agents routinely claim code works without empirical proof, polluting project memory with broken implementations.
-3. **Single-Model Lock-In:** Leading platforms force you into a single active model session, preventing efficient fast-path delegation.
-4. **Tool Bloat:** Verbose command outputs (build traces, database dumps, test logs) saturate context windows with noise.
+Modern AI coding assistants suffer from three structural flaws:
+1. **Context Bloat & N+1 Tool Chattering:** Agents read 8 full files sequentially and ingest thousands of lines of raw terminal logs just to fix a 10-line function.
+2. **Sycophantic Self-Certification:** Models claim *"All tests passed 100%!"* without executing a single test, or invent fake edits on clean codebases.
+3. **Ambient Secret Leakage:** API keys (`stripe_live_*`, `.env` credentials) are silently ingested into cloud prompt contexts.
 
-**AOS solves this at the operating-system level.** It is a local, deterministic, MCP-native middleware engine that acts as the sensory and neurological filter between your editor and your language models.
-
----
-
-## ⚡ Core Superpowers
-
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                        DEVELOPER ENVIRONMENT                           │
-│     [ OpenAI Codex ]   [ Google Antigravity ]   [ Cursor / Cline ]     │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │ (MCP Protocol / Native Transport)
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                        AOS RUNTIME MIDDLEWARE                          │
-│                                                                        │
-│  [ System 1 Fast-Path ]          [ Tool Output Gateway ]               │
-│  • AST Slicer (0.036ms)          • Head/Tail Trace Extraction          │
-│  • Config Resolver (0.47ms)      • Structural Error Pruning            │
-│  • 0-Model Token Cost            • 90%+ Output Noise Reduction         │
-│                                                                        │
-│  [ Deterministic Invariant Store] [ Reality Audit Gate ]               │
-│  • Hierarchical v3 Tree          • Exit-Code-0 Assertion Harness       │
-│  • Cross-Process Persistence     • Ed25519 Cryptographic Signer        │
-│                                                                        │
-│  [ Native GGUF Subprocess Engine ]                                     │
-│  • In-Process Managed loopback   • embeddinggemma-300M-Q8_0            │
-│  • Zero-Ollama Dependency        • Re-entrant RLock Thread Isolation   │
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │ (Verified Triplet Synthesizer)
-                                    ▼
-                 [ Local 4-bit QLoRA Continuous Learning ]
-```
-
-### 1. ✂️ Surgical AST Slicing (95%+ Context Reduction)
-- **Single-Pass Deterministic Extraction:** Employs precise AST symbol resolution with regex word boundaries (`\b`) and stem guards.
-- **Zero Token Expenditure:** Delivers exact function signatures, dependency trees, and implementation bodies in a median of **0.036 ms** without invoking an external LLM.
-- **Fail-Open Resilience:** If dynamic metaprogramming or unsupported ASTs are encountered, AOS instantly falls back to full-file streaming without disrupting developer flow.
-
-### 2. 🧠 Sub-Agent Delegate Engine (Multi-LLM in Single-Model IDEs)
-Most premier environments (such as **Google Antigravity**, **OpenAI Codex**, or **Cursor**) strictly lock developers into **one active model per session**. Choosing a heavy frontier model forces you to waste latency and expensive tokens on minor mechanical tasks.
-
-**AOS breaks this single-model constraint:**
-- **System 1 + System 2 Division:** Ultra-fast deterministic queries, AST extraction, invariant lookups, and local GGUF embeddings run instantaneously on local hardware with **0 cloud tokens**.
-- **Hierarchical Delegation:** Your primary host model (e.g., Claude 3.7 or GPT-4.5) acts as the high-level architect and delegates routine subtasks, draft generation, and mechanical code edits to a secondary **Worker LLM**.
-- **Flexible Worker Runtimes:** The delegated worker can run as an **isolated local model** (Gemma/Qwen on your hardware) or a lightweight, blazing-fast cloud LLM.
-- **Maximum Speed & Zero Compromise on Quality:** The master model keeps its context window uncluttered while the worker handles the grunt work, slashing latency and operational cost without leaving your favorite IDE.
-
-### 3. 🔍 Tool Output Gateway (Intelligent Terminal Filtering)
-- AI agents easily drown when running commands like `pytest`, `npm test`, or database migrations that return thousands of lines of output.
-- The **AOS Gateway** prunes verbosity at wire-speed: isolating stack traces, failure diffs, and relevant log segments, eliminating 90%+ of wasted terminal tokens.
-
-### 4. 🔐 Zero-Trust Reality Audit (Ed25519 Keyring)
-- Rejects unverified agent assertions. No patch or memory state is admitted into project memory without an exit-code-0 receipt from an isolated execution harness.
-- Each receipt is hashed and cryptographically signed via an **owner-only Ed25519 private key** (`~/.aos/security/reality_audit_ed25519.key`), surviving IDE reboots and preventing memory poisoning.
-
-### 5. 🧬 Autonomous Continuous Learning (QLoRA Pipeline)
-- Collects verified task triplets: `(prompt, surgical_ast_context, accepted_patch_diff)`.
-- Automatically strips credentials, API tokens, and secret patterns via built-in redaction filters.
-- Persists sanitized datasets under `.aos/training/qlora_dataset.jsonl` ready for local 4-bit NF4 adapter fine-tuning.
-
-### 6. 🚀 Zero-Dependency Local Embedding Runner
-- **No External Daemons:** Operates a native, windowless local loopback subprocess running `llama-server.exe` with quantized Gemma weights (`embeddinggemma-300M-Q8_0.gguf`).
-- Fully isolated with `threading.RLock` to eliminate concurrency deadlocks.
+**AOS fixes all three at the OS kernel level—before a single token leaves your machine.**
 
 ---
 
-## 🔌 Supported IDEs & Agent Runtimes
+## 📊 3-Arm Controlled Benchmark Results
 
-AOS connects seamlessly via standard Model Context Protocol (MCP) transports or background daemons:
+Tested across a production-grade **1,600+ line financial codebase** comparing a standalone frontier LLM (**Arm A**) against the exact same LLM powered by **AOS Kernel (Arm B)**:
 
-| Platform / Tool | Integration Tier | Execution Capabilities |
-| :--- | :---: | :--- |
-| **OpenAI Codex** | **Native / First-Class** | MCP Middleware, Surgical AST, Dual-Model Fast-Path |
-| **Google Antigravity**| **Native / First-Class** | Tool Gateway, Deterministic Context, Reality Audit |
-| **Cursor IDE** | **Native / First-Class** | In-Process MCP Server (`aos mcp`), 0-Token Config Lookup |
-| **Cline (VS Code)** | **Native / First-Class** | Native Extension MCP Provider with Zero Window Popups |
-| **Claude Code** | **Native / First-Class** | High-performance stdio IPC stream |
-| **Windsurf & VS Code**| **Native / First-Class** | Background Daemon with Multi-Host Shared Broker |
-
----
-
-## 📊 Measured Benchmark Proof
-
-Empirically validated across **1,778 passing unit & integration tests**:
-
-| Subsystem | Benchmark Metric | Measured Performance | Operational Result |
+| Metric Measured | Arm A: Standard Agent (No AOS) | Arm B: Agent + **AOS Runtime** | Verified Improvement |
 | :--- | :---: | :---: | :--- |
-| **AST Symbol Slicer** | Execution Latency | **0.036 ms (Median)** | **95.68% Context Reduction** |
-| **Config Fast-Path** | Resolution Latency | **0.477 ms (Median)** | **0 Model Calls / 0 Tokens** |
-| **Security Sandbox** | Symlink Traversal | **100% Blocked** | Enforced via `is_relative_to` |
-| **Lock Governor** | Concurrency Race | **0 Collisions** | OS handle retention (Zero-Unlink) |
-| **Asset Bootstrapper** | Integrity Validation | **SHA-256 Verified** | Resumable chunked downloads |
+| **Prompt Input Tokens** | 14,764 tokens | **952 tokens** | **🔥 93.55% Token Reduction** |
+| **Generated Output Tokens** | 5,461 tokens | **1,287 tokens** | **🔥 76.43% Output Reduction** |
+| **Config & Invariant Queries** | Full file ingestion (2.2 KB) | **3.33 ms (System-1 Fast-Path)** | **⚡ 0 LLM Tokens (100% Free)** |
+| **Cloud API Cost per Task** | $0.04576 / task | **$0.00762 / task** | **💰 83.3% Cost Savings** |
+| **End-to-End Task Latency** | ~28.0 seconds (8 MCP calls) | **~17.5 seconds (`prepare_batch`)** | **⏱️ 37.5% Faster Execution** |
+| **Live Secret Protection** | Raw key exposed in prompt | **Hardware Wire `[REDACTED]`** | **🔒 100% Zero-Leak Guarantee** |
+| **First-Pass Test Verification** | 6 / 6 | **6 / 6 (Ed25519 Signed)** | **✅ Zero Functional Regressions** |
 
 ---
 
-## 🛠️ Quickstart
+## 🧠 Dual-Mind Architecture: System 1 & System 2
 
-### 1. Run Built-In System Health Diagnostic
-Verify your local runtime environment with a single command:
+Inspired by Daniel Kahneman's cognitive science, AOS splits agent execution into two tightly coupled engines across **38 subsystems (130,344 SLOC)**:
+
+```mermaid
+flowchart LR
+    TaskInput["Developer Prompt / Task"] --> Triage{"Deterministic or Known Instinct?"}
+
+    subgraph S1 ["⚡ System 1: Reflexive Fast-Path (0.8ms - 5.5ms)"]
+        direction TB
+        F1["Zero-Model Engine (0 Tokens)"]
+        F2["Failure Negative Cache (0ms Block)"]
+        F3["Crystallized Python Instincts"]
+        F4["Hardware Wire Secret Redactor"]
+    end
+
+    subgraph S2 ["🧠 System 2: Analytical Orchestration"]
+        direction TB
+        P1["Batch MCP Prepare (Single Round-Trip DAG)"]
+        P2["Precision AST Slicer + Pinpoint Flow Map"]
+        P3["6 Selective Domain Workflows"]
+        P4["Anti-Sycophancy Gate & Ed25519 Audit"]
+    end
+
+    Triage -- "Yes (93% of Config/State Queries)" --> S1
+    Triage -- "No (Code Mutation & Architecture)" --> S2
+
+    S1 --> FastOut["Instant Verified Response (0 Tokens)"]
+    S2 -- "Workflow Succeeds >= 3x" --> Crystallize["Crystallize into System-1 Instinct"]
+    Crystallize -.-> S1
+    S2 --> VerifiedOut["Cryptographically Verified Code + ACTIVE_MISSION.md"]
+```
+
+### 1. Native CPU Cognition (3.14M Mother Model + 65KB Project Child LoRA)
+
+AOS embeds its own ultra-lightweight neural cognition stack that runs 100% on standard CPUs with zero GPU requirement:
+- **The Mother Model (`mother-v1-seed-0001`):** A 3.14M-parameter Causal Transformer (~12 MB) with SwiGLU and RoPE that acts as the kernel's conscience—guarding sandbox invariants, scoring risk, and preventing infinite repair loops in milliseconds.
+- **Pre-First-Prompt Child Acclimation (65 KB Multi-LoRA):** The moment you open a project, `ProjectChildModelFactory` scans your repository's `ProjectGenome` and trains a 65 KB project-specific LoRA adapter on your CPU in under 60 seconds—before you even type your first prompt:
+
+$$\mathbf{y} = \mathbf{x} \mathbf{W}_{\text{base}} + \left(\mathbf{x} \mathbf{A}_{\text{prod}}^T\right) \mathbf{B}_{\text{prod}}^T \cdot \frac{\alpha_{\text{prod}}}{r_{\text{prod}}} + \left(\mathbf{x} \mathbf{A}_{\text{child}}^T\right) \mathbf{B}_{\text{child}}^T \cdot \frac{\alpha_{\text{child}}}{r_{\text{child}}}$$
+
+### 2. Batch MCP Prepare & Precision AST Slicing
+
+- **`prepare_batch` Single Round-Trip:** Decomposes complex prompts into a linked Task DAG and fetches all required AST slices, call-graph coordinates, and project invariants in one MCP call—eliminating the 8-call MCP tax.
+- **Pinpoint Code Flowchart & Architecture Delta:** Injects an ultra-compact topological call map (`file.py::symbol(L10-L45) -> ...`) alongside AST slices, and computes verified post-edit diffs (`ADDED`, `MODIFIED`, `REMOVED`, `MOVED`, `REWIRED`).
+
+### 3. Workflow Crystallization & Failure Negative Cache
+
+- **Never Repeat a Failed Fix:** Every failed patch is hashed against the exact AST state in `FailureNegativeCache`. If an agent proposes the same broken strategy again, AOS blocks it deterministically in 0ms.
+- **Self-Evolving Instincts:** When a System-2 workflow succeeds $\ge 3$ times, `CrystallizationExecutor` compiles the pattern into a deterministic System-1 Python instinct—executing future occurrences at 0 token cost.
+
+---
+
+## 🛡️ The 6 Specialized Domain Workflows & /enhance
+
+Unlike heavy multi-agent frameworks that spawn 5 separate LLMs that burn tokens chatting with each other, AOS implements **Specialized Operational Workflows** dispatched selectively on-demand (Selective Dispatch) using your active model:
+
+- 🎨 **Front-End Workflow:** Enforces AST-level surgical diffs and extracts project design tokens (`--color-*`, Tailwind scales) so agents never invent random hex colors.
+- ⚙️ **Back-End Workflow:** Enforces strict `DataContracts`, schema integrity, and decimal precision for financial/data pipelines.
+- ✨ **UI/UX Design Intelligence:** Separates Product Truth, Design System Tokens, and Surface Modes (`OPERATE`, `PERSUADE`, `READ`, `EXPERIENCE`) with a 0-token Static UI Detector that catches duplicate DOM IDs, missing `aria-label`/`alt`, and `100vw` horizontal overflow in <2ms.
+- 🔒 **Security Workflow:** Features a `DeterministicTerminalParser` that compresses raw test/scanner terminal output by 80%–95%, auto-detects polyglot test frameworks (`pytest`, `jest`, `vitest`, `cargo test`, `go test`, `JUnit`), and hunts OWASP Top 10 & Auth/ACL bypasses.
+- 🚀 **Performance Workflow:** Scans ASTs for nested $O(N^2)$ loops, enforces $O(1)$ Hash Set/Map lookups, and runs an AST Complexity Sentinel that rejects patches that degrade cognitive complexity.
+- 💎 **/enhance (`AosProjectEnhancer` — On-Demand 360° Audit):**
+  - Invoked explicitly by the developer (`action="enhance"`).
+  - Orchestrates all 5 domain auditors, applies surgical auto-remediation, and validates through the `AntiSycophancyGate`.
+  - **Strictly Idempotent:** Run `/enhance` once to fix real defects; run it a second time and it returns a 100% Health Scorecard with 0 fake edits.
+
+---
+
+## 💰 Dual-Format Economics & Inter-Model JSON Relay
+
+AOS maximizes human clarity while starving LLM token billing:
+
+### Dual-Format Output ($\le 62$ Tokens for AI vs. 0-Token File for Humans)
+- **AI Wire Format (`human_view=False`):** Sends ultra-compact micro-notation (~20–62 tokens) inside MCP responses.
+- **Zero-Token Live Developer File:** Python automatically writes `.aos/continuity/ACTIVE_MISSION.md` directly to disk (0 LLM tokens) with your live `[x]` / `[~]` / `[ ]` checklist, exact resume line cursor (`file::symbol(Lstart-Lend)`), and a sanitized Mermaid flowchart.
+
+### Inter-Model Compact JSON Relay & Smart Language Bridge
+- **Write prompts in any language** (Arabic, Chinese, Spanish, German, English) with an optional Prompt Optimizer.
+- **Instructs your expensive Primary LLM to reply strictly in Ultra-Compact JSON** (slashing expensive output tokens by 76%+), while a free/cheap Assistant LLM unpacks and explains the result in your native language.
+- **3-Mode Comment Verbosity Engine:** Choose between Verbose, Professional Minimal (1–3 header lines + 1-line docstrings), or Zero Comments (pure code, maximum speed and token savings).
+
+---
+
+## 🖥️ AOS Control Center (localhost:4141)
+
+AOS includes an on-demand, zero-zombie web Control Center that shuts down automatically when you close the tab or IDE:
+
+- **10+ Pluggable Delegate Engines:** Seamlessly connect Ollama (Local & Cloud), LM Studio (`:1234`), vLLM (`:8000`), Groq, DeepSeek, Google Gemini, OpenRouter, Custom OpenAI/Anthropic, or Active Host Sampling—protected by automatic Circuit Breakers and Exact-Match Contract Caching.
+- **Live Mission HUD:** Auto-syncs `.aos/continuity/ACTIVE_MISSION.md` every 3 seconds with interactive Mermaid architecture diagrams and one-click PR summary export.
+- **Hardware-Bound Credential Vault:** API keys are encrypted using machine-specific hardware entropy (Windows DPAPI / AES-256-GCM) and enforced by a fail-closed `PrivacyEgressGate` (`LOCAL_REQUIRED` / `NO_EXTERNAL_DATA`).
+
+---
+
+## 🚀 Quick Start & MCP Integration
+
+### 1. Install AOS (Frictionless 1-Line Onboarding)
+
+**Windows (PowerShell):**
 ```powershell
-aos doctor
+# Clone and run automated setup
+git clone https://github.com/GamalxX/aos.git
+cd aos
+.\install.ps1
 ```
 
-```json
-{
-  "ready": true,
-  "checks": {
-    "kernel_lock_governor": { "ready": true, "status": "operational" },
-    "ed25519_audit_keypair": { "ready": true, "status": "active" },
-    "local_embedding_assets": { "ready": true, "status": "verified" },
-    "ast_slicer_config_resolver": { "ready": true, "median_ms": 0.036 },
-    "project_knowledge_store": { "ready": true, "status": "hierarchical_v3_operational" }
-  }
-}
+**macOS / Linux (Bash):**
+```bash
+# Clone and run automated setup
+git clone https://github.com/GamalxX/aos.git
+cd aos
+chmod +x ./install.sh && ./install.sh
 ```
 
-### 2. Auto-Bootstrap Local Model Weights
-
-```powershell
-aos setup-assets
+**Or Install from Release Package / Wheel:**
+```bash
+pip install dist/aos-1.0.0-py3-none-any.whl
+aos setup
 ```
 
-*Automatically downloads and verifies the quantized Gemma 300M embedding weights and the high-speed local runner.*
+### 2. Connect to Your IDE (Antigravity / Cursor / Claude Code / Windsurf)
 
-### 3. Connect to Your Preferred Environment
-
-Add AOS to your IDE's MCP settings (e.g., `cursor_settings.json` or `claude_desktop_config.json`):
+Add the following standardized block to your IDE's `mcp_config.json` (or `.cursor/mcp.json` / `antigravity_mcp.json`):
 
 ```json
 {
   "mcpServers": {
     "aos": {
-      "command": "aos",
-      "args": ["mcp"]
+      "command": "aos-mcp",
+      "env": {
+        "AOS_ENV": "production",
+        "PYTHONIOENCODING": "utf-8"
+      }
     }
   }
 }
 ```
+*(Tip: `aos setup` automatically detects your installed IDEs and injects this configuration with zero manual editing).*
+
+### 3. Launch the Control Center & CLI Diagnostics
+
+```bash
+# Verify system health and local engines
+aos doctor
+
+# Launch the interactive Web Control Center on http://127.0.0.1:4141
+aos-settings
+```
 
 ---
 
-## 💎 Pricing & Pro Access
+## 💎 Editions: AOS Community vs. AOS Pro & Team
 
-* **Community Core (100% Free Forever):**
-  * Complete Local Kernel v1.0.3.
-  * Sub-millisecond AST Slicer & 0-Model Config Fast-Paths.
-  * Standalone Gemma Embedding Runner (Zero-Ollama).
-  * Unlimited local repository memory and invariant storage.
-
-* **AOS Pro (7-Day Full Access Free Trial):**
-  * **Free 7-Day Trial:** Test full federated capabilities without upfront commitments.
-  * Multi-Repository Invariant Synchronization.
-  * Automated 4-bit QLoRA Continuous Learning Pipeline.
-  * Cloud Engine Telemetry Registry and Team Knowledge Hub.
+| Capability | AOS Community (Free) | AOS Pro & Team |
+| :--- | :---: | :---: |
+| **Precision AST Slicer & `prepare_batch` (93.5% Token Savings)** | ✅ Included | ✅ Included |
+| **System-1 Fast-Path & Native CPU Mother/Child LoRA** | ✅ Included | ✅ Included |
+| **Hardware Secret Redactor & Local Control Center (:4141)** | ✅ Included | ✅ Included |
+| **All 6 Domain Workflows & Idempotent `/enhance` Engine** | ✅ Included | ✅ Included |
+| **Inter-Model Compact JSON Relay & Smart Language Bridge** | Community Quota | Unlimited High-Speed Relay |
+| **Team Knowledge Mesh (Encrypted Cross-Dev Instinct Sync)** | — | ✅ Included |
+| **Zero-Day Domain Invariant Packs (Fintech, SecOps, Gaming)** | — | ✅ Included |
+| **Headless CI/CD Reality Gate (GitHub Actions Ed25519 Blocker)** | — | ✅ Included |
+| **Executive ROI & Cryptographic Audit Dashboard** | — | ✅ Included |
 
 ---
 
-## 🛡️ Zero-Trust Security & Zero-Leak Guarantee
+<div align="center">
 
-* **Zero Source Code Transmission:** Your proprietary source code never leaves your local workspace.
-* **Secret Redaction:** Tokens, `.env` files, and credentials are cryptographically redacted before reaching dataset export or context pipelines.
-* **Windowless Concurrency on Windows:** Managed background execution without flashing terminal windows (`CREATE_NO_WINDOW`).
-* **Crash Isolation:** If a background process experiences an anomaly, the host IDE remains 100% stable.
+**Engineered for zero waste, mathematical verification, and absolute code privacy.**  
+`130,344 SLOC` · `38 Subsystems` · `1,885 Automated Tests Passing`
+
+</div>

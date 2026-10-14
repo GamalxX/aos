@@ -1,0 +1,33 @@
+[project]
+name = "aos"
+version = "1.0.0"
+description = "The Deterministic System-1 / System-2 Cognitive Kernel for AI Coding Agents"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "aiohttp>=3.13.0",
+    "chromadb>=1.5.9",
+    "loguru>=0.7.3",
+    "ollama>=0.6.2",
+    "psutil>=7.0.0",
+    "pydantic>=2.12.0",
+    "python-dotenv>=1.2.2",
+    "cryptography>=44.0.0",
+    "requests>=2.31.0",
+]
+
+[project.scripts]
+aos = "app.client.entrypoint:main"
+aos-mcp = "app.product_runtime.mcp_server:main"
+aos-settings = "app.product_runtime.settings_service:main"
+
+[project.optional-dependencies]
+qlora = ["torch>=2.6", "transformers>=4.46", "peft>=0.14", "bitsandbytes>=0.45", "safetensors>=0.4"]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["app*"]
+namespaces = true

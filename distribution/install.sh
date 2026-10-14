@@ -1,78 +1,74 @@
 #!/usr/bin/env bash
-# AOS Linux / macOS Standalone Installer Script
-
+# AOS Frictionless One-Line Onboarding Installer for macOS and Linux
 set -e
 
 echo "====================================================="
-echo " 🚀 Installing AOS (Agent Operating System) Core"
+echo " ⚡ Installing AOS (Agent Operating System)"
 echo "====================================================="
 
-# 1. Detect Operating System & Architecture
-OS_TYPE="$(uname -s | tr '[:upper:]' '[:lower:]')"
-ARCH_TYPE="$(uname -m)"
-
-PLATFORM_TARGET=""
-if [[ "$OS_TYPE" == "linux" ]]; then
-    PLATFORM_TARGET="linux"
-elif [[ "$OS_TYPE" == "darwin" ]]; then
-    if [[ "$ARCH_TYPE" == "arm64" ]]; then
-        PLATFORM_TARGET="darwin-arm64"
-    else
-        PLATFORM_TARGET="darwin-x64"
-    fi
+# 1. Detect Python 3.11+
+if command -v python3 &>/dev/null; then
+    PY_CMD="python3"
+elif command -v python &>/dev/null; then
+    PY_CMD="python"
+else
+    echo "❌ Error: Python 3 is required but not found. Please install Python 3.11+." >&2
+    exit 1
 fi
 
-# 2. Ensure Global ~/.aos Directory
-GLOBAL_AOS="$HOME/.aos"
-BIN_DIR="$GLOBAL_AOS/bin"
-mkdir -p "$BIN_DIR"
-echo " • Ensured directory: $BIN_DIR"
+PY_VER=$($PY_CMD -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
+MAJOR=$(echo "$PY_VER" | cut -d. -f1)
+MINOR=$(echo "$PY_VER" | cut -d. -f2)
 
-# 3. Attempt Standalone Binary Download from Branded Gateway
-BINARY_INSTALLED=false
-GATEWAY_URL="${AOS_DOWNLOAD_URL:-https://api.aos.run/download/$PLATFORM_TARGET}"
-LAUNCHER="$BIN_DIR/aos"
+if [ "$MAJOR" -lt 3 ] || [ "$MAJOR" -eq 3 -a "$MINOR" -lt 11 ]; then
+    echo "❌ Error: AOS requires Python 3.11+. Detected Python $PY_VER" >&2
+    exit 1
+fi
+echo " • Python Version: $PY_VER (OK)"
 
-if [[ -n "$PLATFORM_TARGET" ]]; then
-    echo " • Fetching latest standalone binary from: $GATEWAY_URL"
-    if command -v curl &> /dev/null; then
-        if curl -fsSL -L --connect-timeout 10 -o "$LAUNCHER" "$GATEWAY_URL" 2>/dev/null; then
-            if [[ -s "$LAUNCHER" && $(wc -c < "$LAUNCHER") -gt 1000000 ]]; then
-                chmod +x "$LAUNCHER"
-                echo " • Successfully downloaded standalone executable: $LAUNCHER"
-                BINARY_INSTALLED=true
-            else
-                rm -f "$LAUNCHER"
-            fi
-        fi
-    fi
+# 2. Determine Repository Root & Virtual Environment
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ "$SCRIPT_DIR" == */scripts* ]]; then
+    REPO_ROOT="$(dirname "$SCRIPT_DIR")"
+else
+    REPO_ROOT="$SCRIPT_DIR"
 fi
 
-# 4. Fallback: Python launcher script
-if [[ "$BINARY_INSTALLED" != "true" ]]; then
-    echo " • Standalone binary gateway offline or unavailable. Falling back to local Python wrapper."
-    if ! command -v python3 &> /dev/null; then
-        echo "❌ Python 3 is required but not found. Please install Python 3.10+."
-        exit 1
-    fi
-    PY_VERSION=$(python3 -c "import sys; print(f'{sys.version_info.major}.{sys.version_info.minor}')")
-    echo " • Detected Python: $PY_VERSION"
-    
-    cat << 'EOF' > "$LAUNCHER"
-#!/usr/bin/env bash
-python3 -m app.client.cli_setup "$@"
-EOF
-    chmod +x "$LAUNCHER"
-    echo " • Created Python launcher: $LAUNCHER"
+VENV_DIR="$REPO_ROOT/.venv"
+VENV_PY="$VENV_DIR/bin/python"
+
+if [ ! -f "$VENV_PY" ]; then
+    echo " • Creating virtual environment in $VENV_DIR..."
+    $PY_CMD -m venv "$VENV_DIR"
 fi
 
-# 5. PATH instructions
-if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
-    echo " • Note: Add $BIN_DIR to your PATH in ~/.bashrc or ~/.zshrc:"
-    echo "   export PATH=\"\$HOME/.aos/bin:\$PATH\""
+# 3. Locate & Install Wheel Package
+WHEEL=$(find "$REPO_ROOT/dist" -name "*.whl" 2>/dev/null | sort | tail -n 1)
+
+if [ -n "$WHEEL" ] && [ -f "$WHEEL" ]; then
+    echo " • Installing AOS from package: $(basename "$WHEEL")..."
+    "$VENV_PY" -m pip install "$WHEEL" --force-reinstall --quiet
+else
+    echo " • Fetching latest release package..."
+    RELEASE_URL="https://github.com/GamalxX/aos/releases/latest/download/aos-1.0.0-py3-none-any.whl"
+    "$VENV_PY" -m pip install "$RELEASE_URL" --force-reinstall --quiet || "$VENV_PY" -m pip install aos --quiet
+fi
+
+# 4. Auto-Inject MCP Config for Detected Editors
+AOS_BIN="$VENV_DIR/bin/aos"
+if [ -f "$AOS_BIN" ]; then
+    echo " • Injecting MCP configuration into detected IDEs..."
+    "$AOS_BIN" setup
+    echo " • Running system diagnostics..."
+    "$AOS_BIN" doctor
+else
+    "$VENV_PY" -m app.client.entrypoint setup
+    "$VENV_PY" -m app.client.entrypoint doctor
 fi
 
 echo "====================================================="
-echo " ✅ AOS Installation Complete!"
-echo " Run 'aos setup' inside any repository to enable."
+echo " ✅ AOS Setup Complete!"
+echo " Control Center UI:  http://127.0.0.1:4141"
+echo " Run MCP Server:     aos-mcp"
+echo " Run Control Center: aos-settings"
 echo "====================================================="

@@ -1,0 +1,44 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# AOS Local Project Runtime & Continuity Stores
+.aos/
+.aos-data/
+
+# Testing & Coverage Caches
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Databases & SQLite WAL
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+
+# Temporary & Log Files
+*.tmp
+*.log
+output.txt
+*.bak*
+
+# Environment Variables & Secret Keys (Zero-Leak Protection)
+.env
+.env.*
+*.key
+*.pem
+*.cert
+*.crt
+
+# Build Intermediates
+build/
+*.egg-info/
