@@ -96,6 +96,12 @@ $$\mathbf{y} = \mathbf{x} \mathbf{W}_{\text{base}} + \left(\mathbf{x} \mathbf{A}
 - **Never Repeat a Failed Fix:** Every failed patch is hashed against the exact AST state in `FailureNegativeCache`. If an agent proposes the same broken strategy again, AOS blocks it deterministically in 0ms.
 - **Self-Evolving Instincts:** When a System-2 workflow succeeds $\ge 3$ times, `CrystallizationExecutor` compiles the pattern into a deterministic System-1 Python instinct—executing future occurrences at 0 token cost.
 
+### 4. Native Local Embedding Engine (`gemmaembedding2`)
+
+AOS embeds its own dedicated, sovereign code embedding engine for precision semantic AST symbol retrieval:
+- **Zero External Dependencies:** Runs natively via an internal managed local runner (`~/.aos/models/embeddinggemma-2-Q8_0.gguf`). **Requires zero Ollama service installation, zero external provider APIs, and zero network calls.**
+- **300M Bi-Encoder (Q8_0 GGUF, 768 Dimensions):** Embeds symbols, classes, and AST blocks into 768-dimensional dense vectors with sub-millisecond query lookups directly on your local machine.
+
 ---
 
 ## 🛡️ The 6 Specialized Domain Workflows & /enhance
@@ -198,17 +204,20 @@ aos-settings
 
 ## 💎 Editions: AOS Community vs. AOS Pro & Team
 
-| Capability | AOS Community (Free) | AOS Pro & Team |
+AOS strictly adheres to a **Local-First Architecture**—your source code, AST slices, and `.env` credentials never leave your device. Network communication is restricted to lightweight Ed25519 entitlement leases, anonymous telemetry, and central Mother Model intelligence distribution:
+
+| Capability | AOS Community (Free Forever) | AOS Pro & Team |
 | :--- | :---: | :---: |
-| **Precision AST Slicer & `prepare_batch` (93.5% Token Savings)** | ✅ Included | ✅ Included |
-| **System-1 Fast-Path & Native CPU Mother/Child LoRA** | ✅ Included | ✅ Included |
-| **Hardware Secret Redactor & Local Control Center (:4141)** | ✅ Included | ✅ Included |
-| **All 6 Domain Workflows & Idempotent `/enhance` Engine** | ✅ Included | ✅ Included |
-| **Inter-Model Compact JSON Relay & Smart Language Bridge** | Community Quota | Unlimited High-Speed Relay |
-| **Team Knowledge Mesh (Encrypted Cross-Dev Instinct Sync)** | — | ✅ Included |
-| **Zero-Day Domain Invariant Packs (Fintech, SecOps, Gaming)** | — | ✅ Included |
-| **Headless CI/CD Reality Gate (GitHub Actions Ed25519 Blocker)** | — | ✅ Included |
-| **Executive ROI & Cryptographic Audit Dashboard** | — | ✅ Included |
+| **Local-First Sovereign Execution (Zero Code Egress)** | ✅ 100% Local | ✅ 100% Local |
+| **Precision AST Slicer & `prepare_batch` (93.5% Savings)** | ✅ Included | ✅ Included |
+| **System-1 Reflex & Hardware Secret Redaction** | ✅ Included | ✅ Included |
+| **Native `gemmaembedding2` Local Engine (300M Q8_0 - 768d)** | ✅ Included (Zero Provider) | ✅ Included (Zero Provider) |
+| **Local Control Center UI (`http://127.0.0.1:4141`)** | ✅ Included | ✅ Included |
+| **Graceful Fallback on Plan Expiration** | ✅ Guaranteed (Zero Workflow Disruption) | ✅ Seamless Continuity |
+| **Pre-First-Prompt Child LoRA Distillation (65KB)** | Baseline Invariants | Unlimited Autonomous Learning |
+| **In-Memory Ephemeral Swarm & Workflow Crystallization** | Single-Agent Base | Ephemeral Multi-Agent Swarm |
+| **Federated Mother Model Intelligence Sync** | Standard Sync | Priority Micro-LoRA Deltas |
+| **Team Knowledge Mesh & CI/CD Reality Gate** | — | ✅ Included |
 
 ---
 
