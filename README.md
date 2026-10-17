@@ -149,9 +149,16 @@ AOS includes an on-demand, zero-zombie web Control Center that shuts down automa
 
 ### 1. Install AOS (Frictionless 1-Line Onboarding)
 
+**Via PyPI (Recommended):**
+```bash
+pip install kayan-aos
+aos setup
+```
+
+**Or Clone and run automated setup:**
+
 **Windows (PowerShell):**
 ```powershell
-# Clone and run automated setup
 git clone https://github.com/GamalxX/aos.git
 cd aos
 .\install.ps1
@@ -159,16 +166,9 @@ cd aos
 
 **macOS / Linux (Bash):**
 ```bash
-# Clone and run automated setup
 git clone https://github.com/GamalxX/aos.git
 cd aos
 chmod +x ./install.sh && ./install.sh
-```
-
-**Or Install from Release Package / Wheel:**
-```bash
-pip install dist/aos-1.0.0-py3-none-any.whl
-aos setup
 ```
 
 ### 2. Connect to Your IDE (Antigravity / Cursor / Claude Code / Windsurf)

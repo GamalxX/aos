@@ -52,7 +52,7 @@ if ($wheel) {
     try {
         & $venvPy -m pip install $releaseUrl --force-reinstall --quiet
     } catch {
-        & $venvPy -m pip install aos --quiet
+        & $venvPy -m pip install kayan-aos --quiet
     }
 }
 

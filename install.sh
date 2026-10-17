@@ -51,7 +51,7 @@ if [ -n "$WHEEL" ] && [ -f "$WHEEL" ]; then
 else
     echo " • Fetching latest release package..."
     RELEASE_URL="https://github.com/GamalxX/aos/releases/latest/download/aos-1.0.0-py3-none-any.whl"
-    "$VENV_PY" -m pip install "$RELEASE_URL" --force-reinstall --quiet || "$VENV_PY" -m pip install aos --quiet
+    "$VENV_PY" -m pip install "$RELEASE_URL" --force-reinstall --quiet || "$VENV_PY" -m pip install kayan-aos --quiet
 fi
 
 # 4. Auto-Inject MCP Config for Detected Editors
